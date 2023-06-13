@@ -12,7 +12,7 @@ data.table, foreach, parallel, doParallel
 
 以下是示例
 
-# Create NULL list
+## Create NULL list
 ```{r Split Half List}
 shl <- list(list(), list(), list(), list())
 names(shl)[1] <- "First-Second"
@@ -21,21 +21,25 @@ names(shl)[3] <- "Permuted"
 names(shl)[4] <- "Monte Carlo"
 ```
 
-# First-Second
+## First-Second
 ```{r First-Second SHR}
-shl[[1]] <- yukiSH::sh_tool(df.split = df[[1]], method = "fs", sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
+shl[[1]] <- yukiSH::sh_tool(df.split = df[[1]], method = "fs", 
+                            sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
 ```
-# Odd-Even
+## Odd-Even
 ```{r Odd-Even SHR}
-shl[[2]] <- yukiSH::sh_tool(df.split = df[[1]], method = "od", sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
+shl[[2]] <- yukiSH::sh_tool(df.split = df[[1]], method = "od", 
+                            sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
 ```
-# Permuted
+## Permuted
 ```{r Permuted SHR}
-shl[[3]] <- yukiSH::sh_tool(df.split = df[[1]], method = "permuted", sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
+shl[[3]] <- yukiSH::sh_tool(df.split = df[[1]], method = "permuted", 
+                            sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
 ```
 # Monte Carlo
 ```{r Monte Carlo SHR}
-shl[[4]] <- yukiSH::sh_tool(df.split = df[[1]], method = "mc", sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session",
+shl[[4]] <- yukiSH::sh_tool(df.split = df[[1]], method = "mc", 
+                            sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session",
                             iteration = 50, nc = 16)
 ```
 
