@@ -36,7 +36,7 @@ shl[[2]] <- yukiSH::sh_tool(df.split = df[[1]], method = "od",
 shl[[3]] <- yukiSH::sh_tool(df.split = df[[1]], method = "permuted", 
                             sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session")
 ```
-# Monte Carlo
+## Monte Carlo
 ```{r Monte Carlo SHR}
 shl[[4]] <- yukiSH::sh_tool(df.split = df[[1]], method = "mc", 
                             sub = "Subject", var1 = "Matching", var2 = "Identity", var3 = "Session",
