@@ -3,6 +3,9 @@ a splithalf tool SPMT datasets
 
 我的第一个R包
 
+```{r}
+devtools::install_github("yuki-961004/yukiSH") 
+```
 用四种方法来对一个数据集进行分半
 四种方法是first-secon，odd-even，permuted和Monte Carlo
 
