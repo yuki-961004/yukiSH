@@ -10,7 +10,7 @@
 #' @return 返回分半的结果
 #' @export 返回分半的结果
 
-other <- function(df.split, method, sub, var1, var2, var3) {
+fsod <- function(df.split, method, sub, var1, var2, var3) {
 
   # Set the seed to fix the output value
   set.seed(123)
@@ -33,13 +33,7 @@ other <- function(df.split, method, sub, var1, var2, var3) {
     data <- x[complete.cases(x),]
 
 
-    if(method == "permuted") {
-      # Permute the rows of the data and split it into two halves
-      permuted_data <- data[sample(nrow(data)),]
-      half_split_1 <- permuted_data[1:floor(nrow(permuted_data)/2),]
-      half_split_2 <- permuted_data[(floor(nrow(permuted_data)/2)+1):nrow(permuted_data),]
-    }
-    else if(method == "fs") {
+    if(method == "fs") {
       # Split the data into two subsets using a first-second split
       half_split_1 <- data[1:floor(nrow(data)/2),]
       half_split_2 <- data[(floor(nrow(data)/2)+1):nrow(data),]

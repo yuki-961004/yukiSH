@@ -1,13 +1,13 @@
 Package: yukiSH
 Type: Package
 Title: R package for split half
-Version: 0.0.2
+Version: 0.0.3
 Author: yuki <hmz1969a@gmail.com>
 Maintainer: yuki <hmz1969a@gmail.com>
 Description: This package is used to split your data by 4 method.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
-Imports: data.table, foreach, parallel, doParallel
+Imports: dplyr, foreach, parallel, doParallel
 RoxygenNote: 7.2.3
 Standardizable: FALSE

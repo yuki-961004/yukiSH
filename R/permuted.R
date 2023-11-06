@@ -11,7 +11,7 @@
 #' @return 返回蒙特卡洛分半的结果
 #' @export 返回蒙特卡洛分半的结果
 
-mc <- function(df.split, iteration, nc, sub, var1, var2, var3) {
+permuted <- function(df.split, iteration, nc, sub, var1, var2, var3) {
   # Scientific notation
   options(scipen = 999)
 
@@ -29,7 +29,7 @@ mc <- function(df.split, iteration, nc, sub, var1, var2, var3) {
   j <- 0
 
   # Run the for loop in parallel
-  split_list <- foreach(j = 1:iteration, .combine = "c" ,.packages = c("dplyr")) %dopar% {
+  split_list <- foreach(j = 1:iteration, .combine = "c") %dopar% {
     set.seed(122+j)
     # Initialize empty lists to store the split-half data sets
     str_half_split_1 <- list()
@@ -42,10 +42,9 @@ mc <- function(df.split, iteration, nc, sub, var1, var2, var3) {
       data <- x[complete.cases(x),]
 
       # Permute the rows of the data and split it into two halves
-      set.seed(2*j)
-      half_split_1 <- dplyr::sample_n(tbl = data, size = nrow(data), replace = TRUE)
-      set.seed(2*j+1)
-      half_split_2 <- dplyr::sample_n(tbl = data, size = nrow(data), replace = TRUE)
+      permuted_data <- data[sample(nrow(data)),]
+      half_split_1 <- permuted_data[1:floor(nrow(permuted_data)/2),]
+      half_split_2 <- permuted_data[(floor(nrow(permuted_data)/2)+1):nrow(permuted_data),]
 
       # Get the minimum number of rows between the two data sets
       min_rows <- min(nrow(half_split_1), nrow(half_split_2))

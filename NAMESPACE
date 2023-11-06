@@ -1,3 +1,4 @@
-import("data.table", "foreach", "parallel", "doParallel")
+import("dplyr", "foreach", "parallel", "doParallel")
 importFrom("stats", "complete.cases")
+importFrom("dplyr", "sample_n")
 export("sh_tool")

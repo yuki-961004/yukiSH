@@ -13,9 +13,13 @@
 #' @export 返回分半的结果
 
 sh_tool <- function(df.split, iteration, nc, sub, var1, var2, var3, method) {
-  if (method == "mc") {
-    mc(df.split, iteration, nc, sub, var1, var2, var3)
-  } else {
-    other(df.split, method, sub, var1, var2, var3)
-  }
+  result <- switch(
+    method,
+    "permuted" = permuted(df.split, iteration, nc, sub, var1, var2, var3),
+    "mc" = mc(df.split, iteration, nc, sub, var1, var2, var3),
+    "fs" = fsod(df.split, method, sub, var1, var2, var3),
+    "od" = fsod(df.split, method, sub, var1, var2, var3),
+    stop("Invalid indice argument")
+  )
+  return(result)
 }
