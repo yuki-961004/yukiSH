@@ -2,26 +2,22 @@
 % Please edit documentation in R/fsod.R
 \name{fsod}
 \alias{fsod}
-\title{Title}
+\title{irst-Second & Odd-Even Split Half}
 \usage{
-fsod(df.split, method, sub, var1, var2, var3)
+fsod(df.split, method, sub, vars)
 }
 \arguments{
-\item{df.split}{被分半的list}
+\item{df.split}{A list of split datasets}
 
-\item{method}{分半方法}
+\item{method}{The method used for splitting}
 
-\item{sub}{被试}
+\item{sub}{Subject identifier}
 
-\item{var1}{变量1}
-
-\item{var2}{变量2}
-
-\item{var3}{变量3}
+\item{vars}{Variables to be considered}
 }
 \value{
-返回分半的结果
+Returns the result of the split
 }
 \description{
-Title
+irst-Second & Odd-Even Split Half
 }

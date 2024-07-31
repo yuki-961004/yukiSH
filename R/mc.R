@@ -1,42 +1,55 @@
-#' Title
+#' Monte-Carlo Split Half
 #'
-#' @param df.split 被分半的list
-#' @param iteration 迭代次数
-#' @param nc 使用的CPU线程数
-#' @param sub 被试是哪一列
-#' @param var1 第一个自变量
-#' @param var2 第二个自变量
-#' @param var3 第三个自变量
+#' @param df.split A list of split datasets
+#' @param iteration Number of iterations
+#' @param nc Number of CPU threads to use
+#' @param sub Column indicating the subject
+#' @param vars Variables to be considered
 #'
-#' @return 返回蒙特卡洛分半的结果
-#' @export 返回蒙特卡洛分半的结果
+#' @return Returns the result of the Monte Carlo split
+#' @export
 
-mc <- function(df.split, iteration, nc, sub, var1, var2, var3) {
+mc <- function(df.split, iteration, nc, sub, vars) {
   # Scientific notation
-  options(scipen = 999)
+  base::options(scipen = 999)
 
-  # Stratify the data by Match and Identity
-  split_data <- split(df.split, list(df.split[[sub]], df.split[[var1]],
-                                     df.split[[var2]], df.split[[var3]]))
+  # Ensure vars is a vector of column names
+  if (!is.character(vars)) {
+    stop("vars should be a character vector of column names.")
+  }
+
+  # Check if all vars exist in the dataframe
+  if (!all(vars %in% colnames(df.split))) {
+    stop("One or more columns in vars do not exist in the dataframe.")
+  }
+
+  # Combine sub and vars to create the list of factors for stratification
+  stratify_vars <- c(sub, vars)
+
+  # Convert columns to factors and create a list for splitting
+  split_data <- base::split(
+    x = df.split,
+    f = base::lapply(df.split[stratify_vars], as.factor)
+  )
 
   # Initialize a vector to store the Pearson correlation coefficients
-  split_list <- vector("list", iteration)
+  split_list <- base::vector("list", iteration)
 
   # Initialize the parallel backend
-  registerDoParallel(nc)
+  doParallel::registerDoParallel(nc)
 
   # declare j variable
   j <- 0
 
   # Run the for loop in parallel
-  split_list <- foreach(j = 1:iteration, .combine = "c" ,.packages = c("dplyr")) %dopar% {
+  split_list <- foreach::foreach(j = 1:iteration, .combine = "c" ,.packages = c("dplyr")) %dopar% {
     set.seed(122+j)
     # Initialize empty lists to store the split-half data sets
     str_half_split_1 <- list()
     str_half_split_2 <- list()
 
     # Calculate the split-half reliability for each group
-    str_half_split <- lapply(split_data, function(x) {
+    str_half_split <- base::lapply(split_data, function(x) {
 
       # Remove rows with missing values
       data <- x[complete.cases(x),]
@@ -59,15 +72,15 @@ mc <- function(df.split, iteration, nc, sub, var1, var2, var3) {
     })
 
     # Combine the split-half data sets from all groups
-    str_half_split_1 <- do.call(rbind, lapply(str_half_split, "[[", 1))
-    str_half_split_2 <- do.call(rbind, lapply(str_half_split, "[[", 2))
+    str_half_split_1 <- base::do.call(rbind, lapply(str_half_split, "[[", 1))
+    str_half_split_2 <- base::do.call(rbind, lapply(str_half_split, "[[", 2))
 
     # Return the split-half data sets
     return(list(str_half_split_1, str_half_split_2))
   }
 
   # Stop the parallel backend
-  stopImplicitCluster()
+  doParallel::stopImplicitCluster()
 
   # Combine every two sublists into a single list and create a new list of length iteration
   combined_list <- vector("list", iteration)

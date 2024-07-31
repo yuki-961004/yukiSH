@@ -2,30 +2,26 @@
 % Please edit documentation in R/sh_tool.R
 \name{sh_tool}
 \alias{sh_tool}
-\title{Title}
+\title{Function for Splitting Cognitive Experiment Datasets}
 \usage{
-sh_tool(df.split, iteration, nc, sub, var1, var2, var3, method)
+sh_tool(df.split, iteration, nc, sub, vars, method)
 }
 \arguments{
-\item{df.split}{data}
+\item{df.split}{Dataset to be split}
 
-\item{iteration}{iteration}
+\item{iteration}{Number of iterations. Required only for Monte Carlo and Permuted split half}
 
-\item{nc}{nunmber of cores (only for mc)}
+\item{nc}{nunmber of cores Required only for Monte Carlo and Permuted split half}
 
-\item{sub}{Subject}
+\item{sub}{Subject ID}
 
-\item{var1}{variable 1}
+\item{vars}{Stratification variables, i.e., all variables in your study}
 
-\item{var2}{variable 2}
-
-\item{var3}{variable 3}
-
-\item{method}{split method, "mc", "fs", "od", "permuted"}
+\item{method}{Splitting method, choose one from the following four: 'mc', 'fs', 'od', 'permuted}
 }
 \value{
-返回分半的结果
+Returns the result of the split
 }
 \description{
-Title
+Function for Splitting Cognitive Experiment Datasets
 }

@@ -1,44 +1,53 @@
-#' Title
+#' irst-Second & Odd-Even Split Half
 #'
-#' @param df.split 被分半的list
-#' @param method 分半方法
-#' @param sub 被试
-#' @param var1 变量1
-#' @param var2 变量2
-#' @param var3 变量3
+#' @param df.split A list of split datasets
+#' @param method The method used for splitting
+#' @param sub Subject identifier
+#' @param vars Variables to be considered
 #'
-#' @return 返回分半的结果
-#' @export 返回分半的结果
+#' @return Returns the result of the split
+#' @export
 
-fsod <- function(df.split, method, sub, var1, var2, var3) {
-
+fsod <- function(df.split, method, sub, vars) {
   # Set the seed to fix the output value
   set.seed(123)
 
   # Scientific notation
-  options(scipen = 999)
+  base::options(scipen = 999)
 
-  # Stratify the data by Match and Identity
-  split_data <- split(df.split, list(df.split[[sub]], df.split[[var1]],
-                                     df.split[[var2]], df.split[[var3]]))
+  # Ensure vars is a vector of column names
+  if (!is.character(vars)) {
+    stop("vars should be a character vector of column names.")
+  }
+
+  # Check if all vars exist in the dataframe
+  if (!all(vars %in% colnames(df.split))) {
+    stop("One or more columns in vars do not exist in the dataframe.")
+  }
+
+  # Combine sub and vars to create the list of factors for stratification
+  stratify_vars <- c(sub, vars)
+
+  # Convert columns to factors and create a list for splitting
+  split_data <- base::split(
+    x = df.split,
+    f = lapply(df.split[stratify_vars], as.factor)
+  )
 
   # Initialize empty lists to store the split-half data sets
   str_half_split_1 <- list()
   str_half_split_2 <- list()
 
   # Calculate the split-half reliability for each group
-  str_half_split <- lapply(split_data, function(x) {
-
+  str_half_split <- base::lapply(split_data, function(x) {
     # Remove rows with missing values
     data <- x[complete.cases(x),]
 
-
-    if(method == "fs") {
+    if (method == "fs") {
       # Split the data into two subsets using a first-second split
       half_split_1 <- data[1:floor(nrow(data)/2),]
       half_split_2 <- data[(floor(nrow(data)/2)+1):nrow(data),]
-    }
-    else {
+    } else {
       # Create a vector of row indices
       row_indices <- seq(1, nrow(data))
       # Select the odd-numbered indices for one split-half group
@@ -59,8 +68,8 @@ fsod <- function(df.split, method, sub, var1, var2, var3) {
   })
 
   # Combine the split-half data sets from all groups
-  str_half_split_1 <- do.call(rbind, lapply(str_half_split, "[[", 1))
-  str_half_split_2 <- do.call(rbind, lapply(str_half_split, "[[", 2))
+  str_half_split_1 <- base::do.call(rbind, lapply(str_half_split, "[[", 1))
+  str_half_split_2 <- base::do.call(rbind, lapply(str_half_split, "[[", 2))
 
   split_list <- list(str_half_split_1, str_half_split_2)
 

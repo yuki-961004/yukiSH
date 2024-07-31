@@ -2,28 +2,24 @@
 % Please edit documentation in R/mc.R
 \name{mc}
 \alias{mc}
-\title{Title}
+\title{Monte-Carlo Split Half}
 \usage{
-mc(df.split, iteration, nc, sub, var1, var2, var3)
+mc(df.split, iteration, nc, sub, vars)
 }
 \arguments{
-\item{df.split}{被分半的list}
+\item{df.split}{A list of split datasets}
 
-\item{iteration}{迭代次数}
+\item{iteration}{Number of iterations}
 
-\item{nc}{使用的CPU线程数}
+\item{nc}{Number of CPU threads to use}
 
-\item{sub}{被试是哪一列}
+\item{sub}{Column indicating the subject}
 
-\item{var1}{第一个自变量}
-
-\item{var2}{第二个自变量}
-
-\item{var3}{第三个自变量}
+\item{vars}{Variables to be considered}
 }
 \value{
-返回蒙特卡洛分半的结果
+Returns the result of the Monte Carlo split
 }
 \description{
-Title
+Monte-Carlo Split Half
 }
